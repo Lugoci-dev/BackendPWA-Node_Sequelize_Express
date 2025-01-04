@@ -11,8 +11,6 @@ require('dotenv').config();
 const express = require('express');
 const { sequelize } = require('./models');
 const usuariosRouter = require('./routes/usuarios');
-const proyectosRoutes = require('./routes/proyectos');
-const actividadesRoutes = require('./routes/actividades');
 const ofertasRoutes = require('./routes/ofertas');
 const { Rol } = require('./models');
 
@@ -21,8 +19,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use('/usuarios', usuariosRouter);
-app.use('/proyectos', proyectosRoutes);  
-app.use('/actividades', actividadesRoutes);
 app.use('/ofertas', ofertasRoutes);
 
 app.get('/', (req, res) => {

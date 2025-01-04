@@ -1,76 +1,107 @@
 
 const express = require('express');
-const { Usuario } = require('../models');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { verificarToken, verificarRol } = require('../middlewares/auth');
+const {
+    getUsuarios,
+    registroUsuario,
+    createUsuario,
+    loginUsuario,
+    getPerfilUsuario,
+} = require('../controllers/usuariosController');
+
 const router = express.Router();
 
 // Obtener todos los usuarios (Solo admin)
-router.get('/', verificarToken, verificarRol([1]), async (req, res) => {
-    try {
-        const usuarios = await Usuario.findAll();
-        res.json(usuarios);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los usuarios.' });
-    }
-});
+router.get('/', verificarToken, verificarRol([1]), getUsuarios);
 
-// Crear un nuevo usuario (Sin restricciones)
-router.post('/', async (req, res) => {
-    try {
-        const { nombre, email, password, rolId } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const nuevoUsuario = await Usuario.create({
-            nombre,
-            email,
-            password: hashedPassword,
-            rolId,
-        });
-        res.status(201).json(nuevoUsuario);
-    } catch (error) {
-        res.status(400).json({ error: 'Error al crear el usuario.' });
-    }
-});
+// Crear un nuevo usuario (Solo admin)
+router.post('/', verificarToken, verificarRol([1]), createUsuario);
 
-// Login de usuario (Sin restricciones)
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const usuario = await Usuario.findOne({ where: { email } });
+// Registro de clientes (Abierto a todos)
+router.post('/registro', registroUsuario);
 
-        if (!usuario) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        const isValid = await bcrypt.compare(password, usuario.password);
-        if (!isValid) {
-            return res.status(401).json({ error: 'Contraseña incorrecta' });
-        }
-
-        const token = jwt.sign(
-            { id: usuario.id, rol: usuario.rolId },
-            process.env.JWT_SECRET || 'secreto',
-            { expiresIn: '1h' }
-        );
-
-        res.json({ token });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// Login de usuario (Abierto a todos)
+router.post('/login', loginUsuario);
 
 // Obtener perfil del usuario autenticado (Todos los roles)
-router.get('/perfil', verificarToken, async (req, res) => {
-    try {
-        const usuario = await Usuario.findByPk(req.user.id);
-        res.json(usuario);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el perfil del usuario.' });
-    }
-});
+router.get('/perfil', verificarToken, getPerfilUsuario);
 
 module.exports = router;
+
+
+
+// const express = require('express');
+// const { Usuario } = require('../models');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const { verificarToken, verificarRol } = require('../middlewares/auth');
+// const router = express.Router();
+
+// // Obtener todos los usuarios (Solo admin)
+// router.get('/', verificarToken, verificarRol([1]), async (req, res) => {
+//     try {
+//         const usuarios = await Usuario.findAll();
+//         res.json(usuarios);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error al obtener los usuarios.' });
+//     }
+// });
+
+// // Crear un nuevo usuario (Sin restricciones)
+// router.post('/', async (req, res) => {
+//     try {
+//         const { nombre, email, password, rolId } = req.body;
+//         const hashedPassword = await bcrypt.hash(password, 10);
+//         const nuevoUsuario = await Usuario.create({
+//             nombre,
+//             email,
+//             password: hashedPassword,
+//             rolId,
+//         });
+//         res.status(201).json(nuevoUsuario);
+//     } catch (error) {
+//         res.status(400).json({ error: 'Error al crear el usuario.' });
+//     }
+// });
+
+// // Login de usuario (Sin restricciones)
+// router.post('/login', async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         const usuario = await Usuario.findOne({ where: { email } });
+
+//         if (!usuario) {
+//             return res.status(404).json({ error: 'Usuario no encontrado' });
+//         }
+
+//         const isValid = await bcrypt.compare(password, usuario.password);
+//         if (!isValid) {
+//             return res.status(401).json({ error: 'Contraseña incorrecta' });
+//         }
+
+//         const token = jwt.sign(
+//             { id: usuario.id, rol: usuario.rolId },
+//             process.env.JWT_SECRET || 'secreto',
+//             { expiresIn: '1h' }
+//         );
+
+//         res.json({ token });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
+
+// // Obtener perfil del usuario autenticado (Todos los roles)
+// router.get('/perfil', verificarToken, async (req, res) => {
+//     try {
+//         const usuario = await Usuario.findByPk(req.user.id);
+//         res.json(usuario);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error al obtener el perfil del usuario.' });
+//     }
+// });
+
+// module.exports = router;
 
 
 

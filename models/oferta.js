@@ -1,25 +1,22 @@
 'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Oferta extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      
-      Oferta.belongsTo(models.Proyecto, {
-        foreignKey: 'projectId',
-        as: 'proyecto', 
+      // Relación directa con Usuarios
+      Oferta.belongsTo(models.Usuario, {
+        foreignKey: 'usuarioId',
+        as: 'usuario', // Alias para la relación
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
     }
   }
+
   Oferta.init(
     {
-      projectId: {
+      usuarioId: { // Nueva clave foránea
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -76,8 +73,9 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Oferta',
       tableName: 'Oferta',
-      timestamps: true, 
+      timestamps: true,
     }
   );
+
   return Oferta;
 };
