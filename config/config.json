@@ -1,0 +1,10 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "iD@n@02!s@@c",
+        "database": "proyecto_final_db",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    }
+}
+

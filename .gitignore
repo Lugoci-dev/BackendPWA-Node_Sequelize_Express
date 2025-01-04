@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache
+.npm
+
+# Environment files
+.env
+.env.*
+*.env
+*.env.*
+
+# Specific files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs
+
+# Build output
+dist
+build
+coverage
+
+# Optional lock file
+package-lock.json
+yarn.lock
+
+
