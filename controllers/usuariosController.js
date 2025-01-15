@@ -121,3 +121,60 @@ exports.getPerfilUsuario = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener el perfil del usuario.' });
     }
 };
+
+exports.deleteUsuario = async (req, res) => {
+    try {
+        const usuario = await Usuario.destroy({ where: { id: req.params.id } });
+        if (usuario) {
+          res.status(204).send();
+        } else {
+          res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+      } catch (err) {
+        console.error('Error al eliminar usuario:', err);
+        res.status(500).json({ error: 'Error al eliminar usuario' });
+      }
+};
+
+// Obtener un usuario por ID (Nueva función)
+exports.getUsuarioById = async (req, res) => {
+    try {
+      const usuario = await Usuario.findByPk(req.params.id, {
+        attributes: { exclude: ['password'] },
+        include: { model: Rol, attributes: ['nombre'] },
+      });
+      if (!usuario) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+      res.json(usuario);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener usuario' });
+    }
+  };
+  
+  // Actualizar un usuario (Nueva función)
+  exports.updateUsuario = async (req, res) => {
+    try {
+      const { nombre, email, rolId, password } = req.body;
+  
+      const usuario = await Usuario.findByPk(req.params.id);
+      if (!usuario) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+  
+      // Actualizamos los datos del usuario
+      usuario.nombre = nombre;
+      usuario.email = email;
+      usuario.rolId = rolId;
+  
+      // Si se envía una nueva contraseña, la ciframos
+      if (password) {
+        usuario.password = await bcrypt.hash(password, 10);
+      }
+  
+      await usuario.save();
+      res.json({ mensaje: 'Usuario actualizado correctamente', usuario });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al actualizar usuario' });
+    }
+  };

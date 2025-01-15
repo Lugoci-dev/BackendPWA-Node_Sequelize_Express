@@ -20,14 +20,6 @@ const verificarToken = (req, res, next) => {
     }
 };
 
-// Middleware para verificar roles específicos
-// const verificarRol = (rolesPermitidos) => (req, res, next) => {
-//     const { rol } = req.user; // El rol viene del token decodificado
-//     if (!rolesPermitidos.includes(rol)) {
-//         return res.status(403).json({ error: 'No tienes permiso para realizar esta acción' });
-//     }
-//     next();
-// };
 
 const verificarRol = (rolesPermitidos) => (req, res, next) => {
     console.log("Roles permitidos:", rolesPermitidos); // Depuración

@@ -24,3 +24,5 @@ testConnection();
 
 // Client
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sIjoyLCJpYXQiOjE3MzYwMTQwOTcsImV4cCI6MTczNjAxNzY5N30._udFcnbX0Qu1Gdg-Mag5GZJJ21XgBCK_K9KSdGuIqiY
+
+// Has un listado de los requisitos de la guia proporcionada(en el orden q aparece), junto a este una explicacion del mismo detallada, luego si ha sido implementado o no, si fue implementado una explicacion de como funciona y por que se considera que cumple el requisito

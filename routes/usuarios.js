@@ -7,12 +7,19 @@ const {
     createUsuario,
     loginUsuario,
     getPerfilUsuario,
+    deleteUsuario,
+    getUsuarioById, // Nueva ruta
+    updateUsuario,  // Nueva ruta
 } = require('../controllers/usuariosController');
 
 const router = express.Router();
 
 // Obtener todos los usuarios (Solo admin)
 router.get('/', verificarToken, verificarRol([1]), getUsuarios);
+
+// router.get('/:id', verificarToken, verificarRol([1]), getUsuarioById); // Nueva ruta
+
+// router.put('/:id', verificarToken, verificarRol([1]), updateUsuario); // Nueva ruta
 
 // Crear un nuevo usuario (Solo admin)
 router.post('/', verificarToken, verificarRol([1]), createUsuario);
@@ -25,6 +32,12 @@ router.post('/login', loginUsuario);
 
 // Obtener perfil del usuario autenticado (Todos los roles)
 router.get('/perfil', verificarToken, getPerfilUsuario);
+
+router.delete('/:id', verificarToken, verificarRol([1]), deleteUsuario);
+
+router.get('/:id', verificarToken, verificarRol([1]), getUsuarioById); // Nueva ruta
+
+router.put('/:id', verificarToken, verificarRol([1]), updateUsuario); // Nueva ruta
 
 module.exports = router;
 

@@ -9,6 +9,7 @@
 
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors'); // Importar CORS
 const { sequelize } = require('./models');
 const usuariosRouter = require('./routes/usuarios');
 const ofertasRoutes = require('./routes/ofertas');
@@ -16,6 +17,13 @@ const { Rol } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Configuración de CORS
+app.use(cors({
+    origin: 'http://localhost:5173', // Permitir solicitudes desde el frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 
 app.use(express.json());
 app.use('/usuarios', usuariosRouter);
