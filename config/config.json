@@ -1,8 +1,8 @@
 {
     "development": {
         "username": "postgres",
-        "password": "iD@n@02!s@@c",
-        "database": "backend_pwa",
+        "password": "abelgm1b26",
+        "database": "provefrontshop",
         "host": "127.0.0.1",
         "dialect": "postgres"
     }

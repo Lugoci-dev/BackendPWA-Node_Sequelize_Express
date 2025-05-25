@@ -17,10 +17,6 @@ const router = express.Router();
 // Obtener todos los usuarios (Solo admin)
 router.get('/', verificarToken, verificarRol([1]), getUsuarios);
 
-// router.get('/:id', verificarToken, verificarRol([1]), getUsuarioById); // Nueva ruta
-
-// router.put('/:id', verificarToken, verificarRol([1]), updateUsuario); // Nueva ruta
-
 // Crear un nuevo usuario (Solo admin)
 router.post('/', verificarToken, verificarRol([1]), createUsuario);
 
