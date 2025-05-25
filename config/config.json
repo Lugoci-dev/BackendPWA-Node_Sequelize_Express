@@ -1,10 +1,10 @@
 {
     "development": {
         "username": "postgres",
-        "password": "abelgm1b26",
-        "database": "provefrontshop",
-        "host": "127.0.0.1",
+        "password": "iD@n@02!s@@c",
+        "database": "postgres",
+        "host": "db.bmfyokbmhgmwypzslnpw.supabase.co",
+        "port": 5432,
         "dialect": "postgres"
     }
 }
-
