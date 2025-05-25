@@ -39,6 +39,11 @@ const { sequelize, Usuario, Rol,  Oferta } = require('./models');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
+
+
+
 // Configuración de CORS
 app.use(cors({
     origin: ['http://localhost:5173', 'http://localhost:9000'], // Permitir solicitudes desde el frontend
@@ -73,6 +78,18 @@ app.get('/', (req, res) => {
             Hola Mundo: ¡Servidor funcionando con NodeJs, Express y Sequelize!...
         </h3> `);
 });
+
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 
 sequelize.sync({ alter: true })
     .then(async () => {

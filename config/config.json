@@ -1,10 +1,24 @@
+
+
 {
     "development": {
+      "username": "postgres",
+      "password": "iD@n@02!s@@c",
+      "database": "postgres",
+      "host": "db.bmfyokbmhgmwypzslnpw.supabase.co",
+      "port": 5432,
+      "dialect": "postgres"
+    },
+    "production": {
+      "use_env_variable": "DATABASE_URL",
+      "dialect": "postgres"
+    },
+    "prove": {
         "username": "postgres",
-        "password": "iD@n@02!s@@c",
-        "database": "postgres",
-        "host": "db.bmfyokbmhgmwypzslnpw.supabase.co",
-        "port": 5432,
+        "password": "abelgm1b26",
+        "database": "provefrontshop",
+        "host": "127.0.0.1",
         "dialect": "postgres"
     }
-}
+  }
+  
